@@ -1,4 +1,5 @@
 const User = require("../models/userAuth")
+const {v4: uuidv4} = require("uuid")
 
 async function userSignUp(req,res) {
     const {name, email, password} = req.body;
@@ -17,6 +18,8 @@ async function userLogin(req,res) {
     if(!user) return res.render("login", {  // FIX: check result, not model-so use user not User
         error: "Invalid username or password"
     });
+    const sessionId = uuidv4();
+
     return res.redirect("/") // Redirect to homepage
 }
 module.exports = {userSignUp, userLogin};
