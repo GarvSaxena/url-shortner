@@ -17,7 +17,9 @@
         <p>Url generated: http://localhost:5001/url/<%= id %></p>
     <% } %> 
     <div>
-        <form method = "post" action = "/url">
+        <form method = "post" action = "/url"> 
+            <!-- action tells the browser where to send the form data after the user clicks Submit.
+            "/user" is the URL (route) where the data will go. -->
             <label>Enter your URL</label>
             <input type = "text" name = "url" placeholder="https://example.com" />
             <button type="submit">Generate</button>

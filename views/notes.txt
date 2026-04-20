@@ -1,0 +1,1 @@
+We have to first create a static router before using view

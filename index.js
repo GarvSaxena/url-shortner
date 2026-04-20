@@ -1,9 +1,12 @@
 const express = require("express");
-const urlRoute = require("./routes/url.js");
+
 const { connectMongo } = require("./connections/connections.js");
 const URL = require("./models/url.js"); 
 const path = require("path");
+
+const urlRoute = require("./routes/url.js");
 const staticRouter = require("./routes/staticRouter")
+const userAuthRoute = require("./routes/userAuth.js")
 
 const app = express();
 app.use(express.json());
@@ -15,7 +18,7 @@ const mongoURL = "mongodb://localhost:27017/short-url";
 
 // Connect DB
 connectMongo(mongoURL)
-  .then(() => console.log("MongoDB connected"))
+  .then(() => console.log("MongoDB connected\nhttp://localhost:5001/"))
   .catch(err => console.log("MongoDB error:", err));
 
 app.set('view engine', 'ejs'); // tell express which view engine you are using 
@@ -25,6 +28,8 @@ app.set('views',path.resolve("./views")); //It tells Express where your view (te
 app.use(express.urlencoded({extended: false}));  // middleware used to parse form data
 
 // Routes
+app.use("/user", userAuthRoute);
+
 app.use("/url", urlRoute);
 
 app.get("/test/url", async (req, res) => {
