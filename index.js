@@ -7,13 +7,17 @@ const path = require("path");
 const urlRoute = require("./routes/url.js");
 const staticRouter = require("./routes/staticRouter")
 const userAuthRoute = require("./routes/userAuth.js")
+const cookieParser = require("cookie-parser")
+const {restirctToLoggedInUserOnly, checkAuth} = require("./middleware/auth.js");
+
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use("/", staticRouter); // this means if some url starts with / use static router
 
-const port = 5001;
+app.use(cookieParser());
+app.use("/",checkAuth, staticRouter); // this means if some url starts with / use static router
+const port = 5003;
 const mongoURL = "mongodb://localhost:27017/short-url";
 
 // Connect DB
@@ -30,7 +34,13 @@ app.use(express.urlencoded({extended: false}));  // middleware used to parse for
 // Routes
 app.use("/user", userAuthRoute);
 
-app.use("/url", urlRoute);
+app.use("/url",restirctToLoggedInUserOnly, urlRoute); // Inline middleware
+// THe above line means that
+// For every request starting with /url:
+// First run → restirctToLoggedInUserOnly (middleware)
+// If allowed → go to urlRoute
+// If not → redirect to /login
+
 
 app.get("/test/url", async (req, res) => {
   const allUrl = await URL.find({});

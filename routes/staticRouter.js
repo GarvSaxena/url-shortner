@@ -4,7 +4,8 @@ const router = express.Router();
 const URL = require("../models/url");
 
 router.get("/", async (req,res) => {
-    const allurls = await URL.find({});
+    if(!req.user) return res.redirect('/login');
+    const allurls = await URL.find({createdBy: req.user._id}); // Now it will only show the urls created by that user 
     return res.render('home' ,{
         urls : allurls,
     });
@@ -18,4 +19,4 @@ router.get("/login", (req,res)=>{
     return res.render("login");
 })
 
-module.exports = router;
+module.exports = router; 

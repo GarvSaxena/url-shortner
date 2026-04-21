@@ -9,6 +9,7 @@ async function generateNewShortUrl(req,res){
         shortId : shortID,
         redirectUrl : body.url,
         visitHistory: [],
+        createdBy: req.user._id,
 })
 
 // return res.json({id: shortID}) - instead using this(because ot returns json data)

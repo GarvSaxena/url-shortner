@@ -13,6 +13,10 @@ const urlschema = new mongoose.Schema({
     visitHistory:[
         {timestamp : {type:Number}}
     ],      
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId, // value will be a MongoDB ObjectId
+        ref: "users", //It tells Mongoose: “This ObjectId belongs to a user document”
+    }
 },
   {timestamps: true}
 
