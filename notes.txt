@@ -1,0 +1,10 @@
+Authentication patterns -
+1) stateful - Which maintains state or data or server side
+state is the data with which something is mapped
+COOKIES ARE TRANSFERED FROM SERVER TO USER BY - COOKIES , RESPONSE , Headers
+EPXRESS FLOW - CLIENT --> aUTH MIDDLEWARE(CHECKS FOR UID , IF VALID CALLS NEXT()) ---> ENDPOINT ROUTE
+In statefull auth - the auth gets remove after the server is restarted
+
+
+2) Stateless - Which has no state
+We use jwt for stateless auth

@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(cookieParser());
 app.use("/",checkAuth, staticRouter); // this means if some url starts with / use static router
-const port = 5003;
+const port = 5001;
 const mongoURL = "mongodb://localhost:27017/short-url";
 
 // Connect DB
