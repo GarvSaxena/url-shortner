@@ -16,12 +16,27 @@ const jwt = require("jsonwebtoken");
 //     sessionIdToUserMap.set(id,user);  //Store user data using a session ID
 // }
 
-function setUser(id,user){
-    return jwt.sign(user,secret);
+function setUser(user){
+    const payload = {
+        _id: user._id,
+        email: user.email
+    }
+    return jwt.sign(payload ,secret);
 } 
 
-function getUser(id){
-    return sessionIdToUserMap.get(id); // Retrieve user data using session ID
+// function getUser(id){
+//     // return sessionIdToUserMap.get(id); // Retrieve user data using session ID
+// }
+function getUser(token){
+    if(!token) return null;
+    // return sessionIdToUserMap.get(id); // Retrieve user data using session ID
+    try {
+        return jwt.verify(token, secret);
+    }
+    catch(error){
+        return null;
+    }
+    
 }
 
 module.exports = {

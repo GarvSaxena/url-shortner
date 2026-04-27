@@ -24,12 +24,19 @@ async function userLogin(req,res) {
     if(!user) return res.render("login", {  // FIX: check result, not model-so use user not User
         error: "Invalid username or password"
     });
-    const sessionId = uuidv4();
-    setUser(sessionId, user);
-    res.cookie("uid" , sessionId);
+
+    // const sessionId = uuidv4();
+    const token = setUser(user);
+    // setUser(sessionId, user);
+    // res.cookie("uid" , sessionId);
+    // res.cookie("uid", token, { ---- removing this for now , to use token, authorization without cookies
+        // domain:"localhost"  - Set the domain where the cookie could be used
+        // maxAge: 5000 Sets the expiry time of cookie in miliseconds
+    // }); // refer to - https://expressjs.com/en/5x/api.html#res.cookie
 //   This line sends a cookie to the browser. // "uid" → cookie name
                                             // sessionId → value stored in cookie
 // To parse cookie we have to install a package called - cookie-parser
+    return res.json({token});
     return res.redirect("/") // Redirect to homepage
 }
 module.exports = {userSignUp, userLogin};

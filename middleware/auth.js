@@ -4,9 +4,12 @@ const { getUser } = require("../service/auth");
 
 
 async function restirctToLoggedInUserOnly(req,res,next){
-    const userUid = req.cookies?.uid;  // get session id from cookie  ? means that find uid only if cookies are there
-    if(!userUid) return res.redirect('/login'); // if no uid then redirect o login page
+    // const userUid = req.cookies?.uid;  // get session id from cookie  ? means that find uid only if cookies are there
+    // Commented above line because now we will try using authorization header and token not cookies
+    const userid = req.headers["authorization"];
     
+    if(!userUid) return res.redirect('/login'); // if no uid then redirect o login page
+        
     const user = getUser(userUid); // get the user with that uid
     if(!user) return res.redirect("/login"); // If user is not found then redirect to login page
     
